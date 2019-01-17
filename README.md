@@ -20,7 +20,7 @@ $ cleos push action <contract> <action> [data] -p <account>@active
 
 ## Tables
 
-**accounts*
+**accounts**
 
 | variable  | type    | description        |
 |-----------|---------|--------------------|
