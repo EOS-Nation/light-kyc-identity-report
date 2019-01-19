@@ -15,7 +15,25 @@ $ cleos get table <contract> <scope> accounts
 Push new report
 
 ```
-$ cleos push action <contract> <action> [data] -p <account>@active
+$ cleos push action <contract> post '["account",score,"metadata"]' -p <account>@active
+```
+
+Update report
+
+```
+$ cleos push action <contract> post '["account",score,"metadata"]' -p <account>@active
+```
+
+Remove report before expiry
+
+```
+$ cleos push action <contract> post '["account",0,""]' -p <account>@active
+```
+
+Remove report after expiry
+
+```
+$ cleos push action <contract> expire '["account"]' -p <account>@active
 ```
 
 ## Tables
