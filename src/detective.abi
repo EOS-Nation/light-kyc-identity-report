@@ -1,0 +1,81 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sat Jan 19 11:29:48 2019",
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "account_row",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "score",
+                    "type": "uint8"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "expire",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "post",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "score",
+                    "type": "uint8"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "expire",
+            "type": "expire",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "post",
+            "type": "post",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "accounts",
+            "type": "account_row",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "abi_extensions": []
+}
