@@ -4,6 +4,37 @@
 
 ## How to Install
 
+[`eosio.cdt`](https://github.com/EOSIO/eosio.cdt) & [`cleos`](https://github.com/EOSIO/eos) must already be installed installed.
+
+**Mac OS X Brew Install**
+
+**install `eosio-cpp`**
+```
+$ brew tap eosio/eosio.cdt
+$ brew install eosio.cdt
+```
+**install `cleos`**
+```
+$ brew tap eosio/eosio
+$ brew install eosio
+```
+
+**Build .wasm**
+
+```
+$ git clone git@github.com:EOS-Nation/eos-detective-reports.git
+$ cd eos-detective-reports/src
+$ eosio-cpp detective.cpp -o detective.wasm
+```
+
+**Deploy Contract**
+
+`<account>` is the account name used to deploy the smart contract.
+
+```
+$ cleos set contract <account> . detective.wasm detective.abi
+```
+
 ## How to Use
 
 Get Account Data
