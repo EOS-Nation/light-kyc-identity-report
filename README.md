@@ -77,3 +77,21 @@ $ cleos push action <contract> expire '["account"]' -p <account>@active
 | score     | integer | Token Weighted Score     |
 | metadata  | JSON    | Token Forensics Metadata |
 | timestamp | datetime| Last updated             |
+
+## Setup Custom Permissions
+
+It is recommended that you set custom permissions for the following reasons:
+- Not exposing your `active` or `owner` private key
+- Permission has explicit actions it can perform (ex: `post` & `expire`)
+
+```
+$ cleos set account permission <account> <permission> <public key> <parent>
+$ cleos set action permission <account> <code> <type> <requirement>
+```
+
+**Example**
+
+```
+$ cleos set account permission account12345 reports EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV active
+$ cleos set action permission account12345 <contract> post reports
+```
