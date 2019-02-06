@@ -4,7 +4,7 @@
 
 ## How to Install
 
-[`eosio.cdt`](https://github.com/EOSIO/eosio.cdt) & [`cleos`](https://github.com/EOSIO/eos) must already be installed installed.
+[`eosio.cdt`](https://github.com/EOSIO/eosio.cdt) & [`cleos`](https://github.com/EOSIO/eos) (or [`eosc`](https://github.com/eoscanada/eosc)) must already be installed installed.
 
 **Mac OS X Brew Install**
 
@@ -32,7 +32,8 @@ $ eosio-cpp detective.cpp -o detective.wasm
 `<account>` is the account name used to deploy the smart contract.
 
 ```
-$ cleos set contract <account> . detective.wasm detective.abi
+$ cleos set contract [account name] [contract-dir] [wasm file] [abi file]
+$ eosc system setcontract [account name] [wasm file] [abi file]
 ```
 
 ## How to Use
@@ -40,31 +41,31 @@ $ cleos set contract <account> . detective.wasm detective.abi
 Get Account Data
 
 ```
-$ cleos get table <contract> <scope> accounts
+$ cleos get table [code account] [scope] accounts
 ```
 
 Push new report
 
 ```
-$ cleos push action <contract> post '["account",score,"metadata"]' -p <account>@active
+$ cleos push action [code account] post '["account",score,"metadata"]' -p <account>@active
 ```
 
 Update report
 
 ```
-$ cleos push action <contract> post '["account",score,"metadata"]' -p <account>@active
+$ cleos push action [code account] post '["account",score,"metadata"]' -p <account>@active
 ```
 
 Remove report before expiry
 
 ```
-$ cleos push action <contract> post '["account",0,""]' -p <account>@active
+$ cleos push action [code account] post '["account",0,""]' -p <account>@active
 ```
 
 Remove report after expiry
 
 ```
-$ cleos push action <contract> expire '["account"]' -p <account>@active
+$ cleos push action [code account] expire '["account"]' -p <account>@active
 ```
 
 ## Tables
@@ -85,13 +86,19 @@ It is recommended that you set custom permissions for the following reasons:
 - Permission has explicit actions it can perform (ex: `post` & `expire`)
 
 ```
-$ cleos set account permission <account> <permission> <public key> <parent>
-$ cleos set action permission <account> <code> <type> <requirement>
+$ cleos set account permission [account] [permission_name] [authority] [parent permission or ""]
+$ cleos set action permission [your account] [code account] [action name] [permission name]
+
+$ eosc system updateauth [account] [permission_name] [parent permission or ""] [authority]
+$ eosc system linkauth [your account] [code account] [action name] [permission name]
 ```
 
 **Example**
 
 ```
 $ cleos set account permission account12345 reports EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV active
-$ cleos set action permission account12345 <contract> post reports
+$ cleos set action permission account12345 [code account] post reports
+
+$ eosc system updateauth account12345 reports active EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+$ eosc system linkauth account12345 [code account] post reports
 ```
