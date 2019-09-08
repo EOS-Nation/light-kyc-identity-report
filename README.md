@@ -1,104 +1,133 @@
-# EOS Detective Reports
+# Light KYC Identity Report - EOSIO Smart Contracts
 
-> EOSIO based smart contract that publishes token forensic reports on chain.
+## ACTION
 
-## How to Install
+- [`add`](#action-add)
+- [`remove`](#action-remove)
+- [`tier`](#action-tier)
+- [`provider`](#action-provider)
 
-[`eosio.cdt`](https://github.com/EOSIO/eosio.cdt) & [`cleos`](https://github.com/EOSIO/eos) (or [`eosc`](https://github.com/eoscanada/eosc)) must already be installed installed.
+## TABLE
 
-**Mac OS X Brew Install**
+- [`accounts`](#accounts-table)
+- [`tier`](#tier-table)
+- [`provider`](#provider-table)
 
-**install `eosio-cpp`**
-```
-$ brew tap eosio/eosio.cdt
-$ brew install eosio.cdt
-```
-**install `cleos`**
-```
-$ brew tap eosio/eosio
-$ brew install eosio
-```
+## ACTION `add`
 
-**Build .wasm**
+Add light KYC identity report to the smart contract table
 
-```
-$ git clone git@github.com:EOS-Nation/eos-detective-reports.git
-$ cd eos-detective-reports/src
-$ eosio-cpp detective.cpp -o detective.wasm
-```
+Authority: `provider`
 
-**Deploy Contract**
+### params
 
-`<account>` is the account name used to deploy the smart contract.
+- `{name} provider` - light kyc provider account
+- `{name} name` - identity account
+- `{public_key} key` - public key that was used to sign the proof of identity
+- `{uint8_t} tier` - identity tier assosiated with identity report
+- `{string} metadata` - additional metadata about report
 
-```
-$ cleos set contract [account name] [contract-dir] [wasm file] [abi file]
-$ eosc system setcontract [account name] [wasm file] [abi file]
+### example
+
+```bash
+cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata for Light KYC"]' -p myprovider
 ```
 
-## How to Use
+## ACTION `remove`
 
-Get Account Data
+Remove light KYC identity report from the smart contract table
 
-```
-$ cleos get table [code account] [scope] accounts
-```
+- Authority: `provider`
 
-Push new report
+### params
 
-```
-$ cleos push action [code account] post '["account",score,"metadata"]' -p <account>@active
-```
+- `{name} provider` - light kyc provider account
+- `{name} name` - identity account
 
-Update report
+### example
 
-```
-$ cleos push action [code account] post '["account",score,"metadata"]' -p <account>@active
+```bash
+cleos push action identity remove '["myprovider", "myaccount"]' -p myprovider
 ```
 
-Remove report before expiry
+## ACTION `tier`
 
-```
-$ cleos push action [code account] post '["account",0,""]' -p <account>@active
-```
+Add metadata for tier
 
-Remove report after expiry
+- Authority: `get_self()`
 
-```
-$ cleos push action [code account] expire '["account"]' -p <account>@active
-```
+### params
 
-## Tables
+- `{uint8_t} tier` - identity tier
+- `{name} name` - identity tier name
+- `{string} metadata` - identity tier metadata
 
-**accounts**
+### example
 
-| variable  | type    | description        |
-|-----------|---------|--------------------|
-| account   | account | EOSIO Account Name |
-| score     | integer | Token Weighted Score     |
-| metadata  | JSON    | Token Forensics Metadata |
-| timestamp | datetime| Last updated             |
-
-## Setup Custom Permissions
-
-It is recommended that you set custom permissions for the following reasons:
-- Not exposing your `active` or `owner` private key
-- Permission has explicit actions it can perform (ex: `post` & `expire`)
-
-```
-$ cleos set account permission [account] [permission_name] [authority] [parent permission or ""]
-$ cleos set action permission [your account] [code account] [action name] [permission name]
-
-$ eosc system updateauth [account] [permission_name] [parent permission or ""] [authority]
-$ eosc system linkauth [your account] [code account] [action name] [permission name]
+```bash
+cleos push action identity tier '[1, "standard", "Standard Tier for light KYC"]' -p identity
 ```
 
-**Example**
+## ACTION `provider`
 
+Add authorized light kyc provider
+
+- Authority: `get_self()`
+
+### params
+
+- `{name} provider` - light kyc provider account
+
+### example
+
+```bash
+cleos push action identity provider '["myprovider"]' -p identity
 ```
-$ cleos set account permission account12345 reports EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV active
-$ cleos set action permission account12345 [code account] post reports
 
-$ eosc system updateauth account12345 reports active EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
-$ eosc system linkauth account12345 [code account] post reports
+## TABLE `account`
+
+- Scope: `provider`
+
+- `{name} name` - identity account
+- `{public_key} key` - public key that was used to sign the proof of identity
+- `{uint8_t} tier` - identity tier assosiated with identity report
+- `{string} metadata` - additional metadata about report
+
+### example
+
+```json
+{
+  "name": "myaccount",
+  "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+  "tier": 1,
+  "metadata": "Additional Metadata for Light KYC"
+}
+```
+
+## TABLE `provider`
+
+- `{name} provider` - light kyc provider account
+
+### example
+
+```json
+{
+  "name": "myprovider"
+}
+```
+
+## TABLE `tier`
+
+- `{uint8_t} tier` - identity tier
+- `{name} name` - identity tier name
+- `{string} metadata` - identity tier metadata
+
+### example
+
+```json
+{
+  "tier": 1,
+  "name": "standard",
+  "metadata": "Standard Tier for light KYC"
+}
 ```
