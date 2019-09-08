@@ -17,3 +17,6 @@ cleos push action identity tier '[1, "standard", "missing authority of identity"
 cleos push action identity provider '["myaccount", "missing authority of identity"]' -p myaccount
 cleos push action identity provider '["myaccount", "missing authority of identity"]' -p myprovider
 cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 9, "tier does not exist"]' -p myprovider
+
+# clean
+cleos push action identity clean '[""]' -p identity
