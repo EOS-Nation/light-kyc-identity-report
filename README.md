@@ -9,7 +9,7 @@
 
 ## TABLE
 
-- [`accounts`](#accounts-table)
+- [`identity`](#identity-table)
 - [`tier`](#tier-table)
 - [`provider`](#provider-table)
 
@@ -17,12 +17,12 @@
 
 Add light KYC identity report to the smart contract table
 
-Authority: `provider`
+- Authority: `provider`
 
 ### params
 
-- `{name} provider` - light kyc provider account
-- `{name} name` - identity account
+- `{name} provider` - light kyc provider account name
+- `{name} account` - identity account name
 - `{public_key} key` - public key that was used to sign the proof of identity
 - `{uint8_t} tier` - identity tier assosiated with identity report
 - `{string} metadata` - additional metadata about report
@@ -41,8 +41,8 @@ Remove light KYC identity report from the smart contract table
 
 ### params
 
-- `{name} provider` - light kyc provider account
-- `{name} name` - identity account
+- `{name} provider` - light kyc provider account name
+- `{name} account` - identity account name
 
 ### example
 
@@ -72,26 +72,32 @@ cleos push action identity tier '[1, "standard", "Standard Tier for light KYC"]'
 
 Add authorized light kyc provider
 
-- Authority: `get_self()`
+- Authority: `get_self()` (if does not exist)
+- Authority: `provider` or `get_self()` (if already exist)
 
 ### params
 
-- `{name} provider` - light kyc provider account
+- `{name} name` - light kyc provider account name
+- `{string} metadata` - light kyc provider metadata
 
 ### example
 
 ```bash
-cleos push action identity provider '["myprovider"]' -p identity
+cleos push action identity provider '["myprovider", "Light KYC Provider Metadata"]' -p identity
 ```
 
-## TABLE `account`
+## TABLE `identity`
 
 - Scope: `provider`
 
-- `{name} name` - identity account
+### params
+
+- `{name} name` - identity account name
 - `{public_key} key` - public key that was used to sign the proof of identity
 - `{uint8_t} tier` - identity tier assosiated with identity report
 - `{string} metadata` - additional metadata about report
+- `{checksum256} trx_id` - identity creation transaction id
+- `{time_point_sec} timestamp` - identity creation timestamp
 
 ### example
 
@@ -100,23 +106,31 @@ cleos push action identity provider '["myprovider"]' -p identity
   "name": "myaccount",
   "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
   "tier": 1,
-  "metadata": "Additional Metadata for Light KYC"
+  "metadata": "Additional Metadata for Light KYC",
+  "trx_id": "f0889d11501fc83ff52d8af62e2d1552193c728e874d9bb559f30a0012deee3e",
+  "timestamp": "2019-09-09T00:00:00"
 }
 ```
 
 ## TABLE `provider`
 
-- `{name} provider` - light kyc provider account
+### params
+
+- `{name} provider` - light kyc provider account name
+- `{string} metadata` - light kyc provider metadata
 
 ### example
 
 ```json
 {
-  "name": "myprovider"
+  "name": "myprovider",
+  "metadata": "Light KYC Provider Metadata"
 }
 ```
 
 ## TABLE `tier`
+
+### params
 
 - `{uint8_t} tier` - identity tier
 - `{name} name` - identity tier name
