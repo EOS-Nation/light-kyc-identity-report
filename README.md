@@ -1,4 +1,4 @@
-# Light KYC Identity Report - EOSIO Smart Contracts
+# Transit Identity - EOSIO Smart Contracts
 
 ## ACTION
 
@@ -15,13 +15,13 @@
 
 ## ACTION `add`
 
-Add light KYC identity report to the smart contract table
+Add transit identity to the smart contract table
 
 - Authority: `provider`
 
 ### params
 
-- `{name} provider` - light kyc provider account name
+- `{name} provider` - provider account name
 - `{name} account` - identity account name
 - `{public_key} key` - public key that was used to sign the proof of identity
 - `{uint8_t} tier` - identity tier assosiated with identity report
@@ -30,24 +30,24 @@ Add light KYC identity report to the smart contract table
 ### example
 
 ```bash
-cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata for Light KYC"]' -p myprovider
+cleos push action identity add '["transit", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "0x04136750a3df9f3cd19e06f60af25f596c74aa0c"]' -p transit
 ```
 
 ## ACTION `remove`
 
-Remove light KYC identity report from the smart contract table
+Remove identity report from the smart contract table
 
 - Authority: `provider`
 
 ### params
 
-- `{name} provider` - light kyc provider account name
+- `{name} provider` - provider account name
 - `{name} account` - identity account name
 
 ### example
 
 ```bash
-cleos push action identity remove '["myprovider", "myaccount"]' -p myprovider
+cleos push action identity remove '["transit", "myaccount"]' -p transit
 ```
 
 ## ACTION `tier`
@@ -65,7 +65,7 @@ Add metadata for tier
 ### example
 
 ```bash
-cleos push action identity tier '[1, "standard", "Standard Tier for light KYC"]' -p identity
+cleos push action identity tier '[1, "eth", "ETH identity"]' -p identity
 ```
 
 ## ACTION `provider`
@@ -83,7 +83,7 @@ Add authorized light kyc provider
 ### example
 
 ```bash
-cleos push action identity provider '["myprovider", "Light KYC Provider Metadata"]' -p identity
+cleos push action identity provider '["transit", "FAST Transit"]' -p identity
 ```
 
 ## TABLE `identity`
@@ -106,7 +106,7 @@ cleos push action identity provider '["myprovider", "Light KYC Provider Metadata
   "name": "myaccount",
   "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
   "tier": 1,
-  "metadata": "Additional Metadata for Light KYC",
+  "metadata": "0x04136750a3df9f3cd19e06f60af25f596c74aa0c",
   "trx_id": "f0889d11501fc83ff52d8af62e2d1552193c728e874d9bb559f30a0012deee3e",
   "timestamp": "2019-09-09T00:00:00"
 }
@@ -116,15 +116,15 @@ cleos push action identity provider '["myprovider", "Light KYC Provider Metadata
 
 ### params
 
-- `{name} provider` - light kyc provider account name
-- `{string} metadata` - light kyc provider metadata
+- `{name} provider` - provider account name
+- `{string} metadata` - provider metadata
 
 ### example
 
 ```json
 {
-  "name": "myprovider",
-  "metadata": "Light KYC Provider Metadata"
+  "name": "transit",
+  "metadata": "FAST Transit"
 }
 ```
 
@@ -141,7 +141,7 @@ cleos push action identity provider '["myprovider", "Light KYC Provider Metadata
 ```json
 {
   "tier": 1,
-  "name": "standard",
-  "metadata": "Standard Tier for light KYC"
+  "name": "eth",
+  "metadata": "ETH identity"
 }
 ```

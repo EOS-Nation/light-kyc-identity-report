@@ -1,0 +1,203 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "add",
+            "base": "",
+            "fields": [
+                {
+                    "name": "provider",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "public_key"
+                },
+                {
+                    "name": "tier",
+                    "type": "uint8"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "clean",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "identity_row",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "public_key"
+                },
+                {
+                    "name": "tier",
+                    "type": "uint8"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                },
+                {
+                    "name": "trx_id",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "provider",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "provider_row",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "remove",
+            "base": "",
+            "fields": [
+                {
+                    "name": "provider",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "tier",
+            "base": "",
+            "fields": [
+                {
+                    "name": "tier",
+                    "type": "uint8"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "tier_row",
+            "base": "",
+            "fields": [
+                {
+                    "name": "tier",
+                    "type": "uint8"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "metadata",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "add",
+            "type": "add",
+            "ricardian_contract": "## Description\n\nadd action"
+        },
+        {
+            "name": "clean",
+            "type": "clean",
+            "ricardian_contract": "## Description\n\nclean action"
+        },
+        {
+            "name": "provider",
+            "type": "provider",
+            "ricardian_contract": "## Description\n\nprovider action"
+        },
+        {
+            "name": "remove",
+            "type": "remove",
+            "ricardian_contract": "## Description\n\nremove action"
+        },
+        {
+            "name": "tier",
+            "type": "tier",
+            "ricardian_contract": "## Description\n\ntier action"
+        }
+    ],
+    "tables": [
+        {
+            "name": "identity",
+            "type": "identity_row",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "provider",
+            "type": "provider_row",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "tier",
+            "type": "tier_row",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [
+        {
+            "id": "ENTIRE AGREEMENT",
+            "body": "This contract contains the entire agreement of the parties, for all described actions, and there are no other promises or conditions in any other agreement whether oral or written concerning the subject matter of this Contract. This contract supersedes any prior written or oral agreements between the parties."
+        }
+    ],
+    "variants": []
+}
