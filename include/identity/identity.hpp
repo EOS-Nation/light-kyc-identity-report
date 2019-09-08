@@ -29,11 +29,11 @@ public:
     /**
      * ACTION `add`
      *
-     * Add light KYC identity report to the smart contract table
+     * Add identity report to the smart contract table
      *
      * - Authority: `provider`
      *
-     * @param {name} provider - light kyc provider account name
+     * @param {name} provider - provider account name
      * @param {name} account - identity account name
      * @param {public_key} key - public key that was used to sign the proof of identity
      * @param {uint8_t} tier - identity tier assosiated with identity report
@@ -41,7 +41,7 @@ public:
      *
      * @example
      *
-     * cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata for Light KYC"]' -p myprovider
+     * cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata"]' -p myprovider
      */
     [[eosio::action]]
     void add( const eosio::name provider,
@@ -53,11 +53,11 @@ public:
     /**
      * ACTION `remove`
      *
-     * Remove light KYC identity report from the smart contract table
+     * Remove identity report from the smart contract table
      *
      * - Authority: `provider`
      *
-     * @param {name} provider - light kyc provider account name
+     * @param {name} provider - provider account name
      * @param {name} account - identity account name
      *
      * @example
@@ -79,7 +79,7 @@ public:
      * @param {string} metadata - identity tier metadata
      * @example
      *
-     * cleos push action identity tier '[1, "standard", "Standard Tier for light KYC"]' -p identity
+     * cleos push action identity tier '[1, "standard", "Standard Tier"]' -p identity
      */
     [[eosio::action]]
     void tier( const uint8_t tier, const eosio::name name, const string metadata );
@@ -87,17 +87,17 @@ public:
     /**
      * ACTION `provider`
      *
-     * Add authorized light kyc provider
+     * Add authorized provider
      *
      * - Authority: `get_self()` (if does not exist)
      * - Authority: `provider` or `get_self()` (if already exist)
      *
-     * @param {name} name - light kyc provider account name
-     * @param {string} metadata - light kyc provider metadata
+     * @param {name} name - provider account name
+     * @param {string} metadata - provider metadata
      *
      * @example
      *
-     * cleos push action identity provider '["myprovider", "Light KYC Provider Metadata"]' -p identity
+     * cleos push action identity provider '["myprovider", "Provider Metadata"]' -p identity
      */
     [[eosio::action]]
     void provider( const eosio::name name, const string metadata );
@@ -136,7 +136,7 @@ private:
      *   "name": "myaccount",
      *   "key": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
      *   "tier": 1,
-     *   "metadata": "Additional Metadata for Light KYC",
+     *   "metadata": "Additional Metadata",
      *   "trx_id": "f0889d11501fc83ff52d8af62e2d1552193c728e874d9bb559f30a0012deee3e",
      *   "timestamp": "2019-09-09T00:00:00"
      * }
@@ -155,14 +155,14 @@ private:
     /**
      * TABLE `provider`
      *
-     * @param {name} provider - light kyc provider account name
-     * @param {string} metadata - light kyc provider metadata
+     * @param {name} provider - provider account name
+     * @param {string} metadata - provider metadata
      *
      * @example
      *
      * {
      *   "name": "myprovider",
-     *   "metadata": "Light KYC Provider Metadata"
+     *   "metadata": "Provider Metadata"
      * }
      */
     struct [[eosio::table("provider")]] provider_row {
@@ -185,7 +185,7 @@ private:
      * {
      *   "tier": 1,
      *   "name": "standard",
-     *   "metadata": "Standard Tier for light KYC"
+     *   "metadata": "Standard Tier"
      * }
      */
     struct [[eosio::table("tier")]] tier_row {
