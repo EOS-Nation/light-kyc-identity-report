@@ -23,7 +23,7 @@ public:
     identity( name receiver, name code, eosio::datastream<const char*> ds )
         : contract( receiver, code, ds ),
             _tier( get_self(), get_self().value ),
-            _provider( get_self(), get_self().value )
+            _identity( get_self(), get_self().value )
     {}
 
     /**
@@ -31,9 +31,8 @@ public:
      *
      * Add identity report to the smart contract table
      *
-     * - Authority: `provider`
+     * - Authority: `get_self()`
      *
-     * @param {name} provider - provider account name
      * @param {name} account - identity account name
      * @param {public_key} key - public key that was used to sign the proof of identity
      * @param {uint8_t} tier - identity tier assosiated with identity report
@@ -41,11 +40,10 @@ public:
      *
      * @example
      *
-     * cleos push action identity add '["myprovider", "myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata"]' -p myprovider
+     * cleos push action identity add '["myaccount", "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", 1, "Additional Metadata"]' -p identity
      */
     [[eosio::action]]
-    void add( const eosio::name provider,
-              const eosio::name account,
+    void add( const eosio::name account,
               const eosio::public_key key,
               const uint8_t tier,
               const string metadata );
@@ -55,17 +53,16 @@ public:
      *
      * Remove identity report from the smart contract table
      *
-     * - Authority: `provider`
+     * - Authority: `get_self()`
      *
-     * @param {name} provider - provider account name
      * @param {name} account - identity account name
      *
      * @example
      *
-     * cleos push action identity remove '["myprovider", "myaccount"]' -p myprovider
+     * cleos push action identity remove '["myaccount"]' -p identity
      */
     [[eosio::action]]
-    void remove( const eosio::name provider, const eosio::name account );
+    void remove( const eosio::name account );
 
     /**
      * ACTION `tier`
@@ -85,24 +82,6 @@ public:
     void tier( const uint8_t tier, const eosio::name name, const string metadata );
 
     /**
-     * ACTION `provider`
-     *
-     * Add authorized provider
-     *
-     * - Authority: `get_self()` (if does not exist)
-     * - Authority: `provider` or `get_self()` (if already exist)
-     *
-     * @param {name} name - provider account name
-     * @param {string} metadata - provider metadata
-     *
-     * @example
-     *
-     * cleos push action identity provider '["myprovider", "Provider Metadata"]' -p identity
-     */
-    [[eosio::action]]
-    void provider( const eosio::name name, const string metadata );
-
-    /**
      * ACTION `clean`
      *
      * removes all rows from existing tables
@@ -115,13 +94,10 @@ public:
     using add_action = eosio::action_wrapper<"add"_n, &identity::add>;
     using remove_action = eosio::action_wrapper<"remove"_n, &identity::remove>;
     using tier_action = eosio::action_wrapper<"tier"_n, &identity::tier>;
-    using provider_action = eosio::action_wrapper<"provider"_n, &identity::provider>;
 
 private:
     /**
      * TABLE `identity`
-     *
-     * - Scope: `provider`
      *
      * @param {name} name - identity account name
      * @param {public_key} key - public key that was used to sign the proof of identity
@@ -153,27 +129,6 @@ private:
     };
 
     /**
-     * TABLE `provider`
-     *
-     * @param {name} provider - provider account name
-     * @param {string} metadata - provider metadata
-     *
-     * @example
-     *
-     * {
-     *   "name": "myprovider",
-     *   "metadata": "Provider Metadata"
-     * }
-     */
-    struct [[eosio::table("provider")]] provider_row {
-        eosio::name     name;
-        string          metadata;
-
-        uint64_t primary_key() const { return name.value; }
-    };
-
-
-    /**
      * ## TABLE `tier`
      *
      * @param {uint8_t} tier - identity tier
@@ -198,12 +153,11 @@ private:
 
     // Tables
     typedef multi_index<"identity"_n, identity_row> identity_table;
-    typedef multi_index<"provider"_n, provider_row> provider_table;
     typedef multi_index<"tier"_n, tier_row> tier_table;
 
     // local instances of the multi indexes
-    provider_table      _provider;
     tier_table          _tier;
+    identity_table      _identity;
 
     // private helpers
     // ===============

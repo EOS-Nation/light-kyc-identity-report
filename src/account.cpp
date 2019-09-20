@@ -1,17 +1,14 @@
-void identity::add( const eosio::name provider,
-                    const eosio::name account,
+void identity::add( const eosio::name account,
                     const eosio::public_key key,
                     const uint8_t tier,
                     const string metadata )
 {
     // validation
-    require_auth( provider );
+    require_auth( get_self() );
     check( is_account( account ), "account does not exist");
-    check( _provider.find( provider.value) != _provider.end(), "provider is not authorized");
     check( _tier.find( tier ) != _tier.end(), "tier does not exist");
 
     // scoped identity table
-    identity_table _identity( get_self(), provider.value );
     auto identity_itr = _identity.find( account.value );
 
     // modify existing identity
@@ -36,17 +33,12 @@ void identity::add( const eosio::name provider,
     }
 }
 
-void identity::remove( const eosio::name provider, const eosio::name account )
+void identity::remove( const eosio::name account )
 {
-    require_auth( provider );
+    require_auth( get_self() );
 
-    check( _provider.find( provider.value) != _provider.end(), "provider does not exist");
-
-    // scoped identity table
-    identity_table _identity( get_self(), provider.value );
     auto identity_itr = _identity.find( account.value );
-
-    check( identity_itr != _identity.end(), "account does not exist using that provider");
+    check( identity_itr != _identity.end(), "account does not exist");
 
     _identity.erase( identity_itr );
 }

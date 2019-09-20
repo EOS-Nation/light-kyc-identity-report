@@ -10,12 +10,6 @@ add action
 
 remove action
 
-<h1 class="contract">provider</h1>
-
-## Description
-
-provider action
-
 <h1 class="contract">tier</h1>
 
 ## Description
