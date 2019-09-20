@@ -2,7 +2,7 @@
 
 > Deployed on [Jungle Testnet](https://jungle.bloks.io/account/lightkyciden)
 
-- [eosjs example](examples)
+- [eosjs example](examples/identity.js)
 
 ## ACTION
 
