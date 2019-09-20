@@ -1,5 +1,9 @@
 # Light KYC Identity Report - EOSIO Smart Contracts
 
+> Deployed on [Jungle Testnet](https://jungle.bloks.io/account/lightkyciden)
+
+- [eosjs example](examples)
+
 ## ACTION
 
 - [`add`](#action-add)

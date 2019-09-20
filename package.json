@@ -1,0 +1,11 @@
+{
+  "name": "light-kyc-identity-report",
+  "version": "0.0.0",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "eosjs": "^20.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}
