@@ -5,7 +5,7 @@ void identity::add( const eosio::name account,
 {
     // validation
     require_auth( get_self() );
-    check( is_account( account ), "account does not exist");
+    // check( is_account( account ), "account does not exist");
     check( _tier.find( tier ) != _tier.end(), "tier does not exist");
 
     // scoped identity table
